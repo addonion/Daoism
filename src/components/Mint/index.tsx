@@ -1,91 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { useSendTransaction } from '@usedapp/core'
-import { utils } from 'ethers'
-import {
-  Flex,
-  Box,
-  Heading,
-  Divider,
-  InputGroup,
-  InputLeftAddon,
-  Input,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Button,
-  useToast,
-} from '@chakra-ui/react'
+import { useContractFunction } from '@usedapp/core'
+import { Contract, utils } from 'ethers'
+import Abi from '../../abi/SimpleContract.json'
+import { simpleContractAddress } from '../../contracts'
+import { Box } from '@chakra-ui/react'
 
 const Mint = () => {
-  const [amount, setAmount] = useState('0')
-  const [address, setAddress] = useState('')
-  const [disabled, setDisabled] = useState(false)
+  const transferInterface = new utils.Interface(Abi)
+  const contract = new Contract(simpleContractAddress, transferInterface)
 
-  const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })
-  const toast = useToast()
+  const { state, send } = useContractFunction(contract, 'transfer')
 
-  const handleClick = () => {
-    setDisabled(true)
-    void sendTransaction({ to: address, value: utils.parseEther(amount) })
+  const handleClick = async () => {
+    void (await send('0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199', 1 * 1e18))
   }
 
-  useEffect(() => {
-    if (state.status != 'Mining') {
-      setDisabled(false)
-      setAmount('0')
-      setAddress('')
-    }
-    if (state.status != 'Exception' && state.status != 'None') {
-      toast({
-        title: state.status,
-        status: 'success',
-        duration: 2000,
-        isClosable: true,
-      })
-    }
-    if (state.status == 'Exception') {
-      toast({
-        title: state.status,
-        description: state.errorMessage,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    }
-  }, [state])
-
   return (
-    <Box my="5rem">
-      <Heading as="h3" size="md">
-        Mint:
-      </Heading>
-      <Divider my={5} />
-      <Flex gap={5} wrap={{ base: 'wrap', md: 'nowrap' }}>
-        <InputGroup w={{ base: '100%', md: '20rem' }}>
-          <InputLeftAddon children="ETH" />
-          <NumberInput id={`EthInput`} step={0.01} defaultValue={0} min={0} w="100%">
-            <NumberInputField onChange={(e) => setAmount(e.currentTarget.value)} value={amount} disabled={disabled} />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </InputGroup>
-        <Input
-          id={`AddressInput`}
-          type="text"
-          placeholder="Address"
-          value={address}
-          onChange={(e) => setAddress(e.currentTarget.value)}
-          disabled={disabled}
-          w="100%"
-        />
-        <Button onClick={handleClick} px={10} w={{ base: '100%', md: 'auto' }}>
-          Send
-        </Button>
-      </Flex>
+    <Box my="5rem" onClick={handleClick}>
+      123
     </Box>
   )
 }
