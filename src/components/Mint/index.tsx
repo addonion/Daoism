@@ -9,10 +9,12 @@ const Mint = () => {
   const transferInterface = new utils.Interface(Abi)
   const contract = new Contract(simpleContractAddress, transferInterface)
 
-  const { state, send } = useContractFunction(contract, 'transfer')
+  console.log(contract.Transfer)
+
+  const { state, send } = useContractFunction(contract, 'Transfer')
 
   const handleClick = async () => {
-    void (await send('0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199', 1 * 1e18))
+    await send('0x0c1d8a45F42eb5D0Fa32bB1284B7e0453e30F7c3', 10000)
   }
 
   return (

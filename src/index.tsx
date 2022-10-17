@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { DAppProvider, Config, Goerli } from '@usedapp/core'
+import { DAppProvider, Config, Mainnet, Goerli } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import App from './App'
 
 const config: Config = {
-  readOnlyChainId: Goerli.chainId,
+  readOnlyChainId: Mainnet.chainId,
   readOnlyUrls: {
+    [Mainnet.chainId]: getDefaultProvider('mainnet'),
     [Goerli.chainId]: getDefaultProvider('goerli'),
   },
 }
