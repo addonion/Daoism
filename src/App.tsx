@@ -3,7 +3,7 @@ import { ChakraProvider, Container, Heading } from '@chakra-ui/react'
 import { useEthers } from '@usedapp/core'
 import Profile from './components/Profile'
 import Transfer from './components/Transfer'
-import Mint from './components/Mint'
+// import Mint from './components/Mint'
 
 function App() {
   const { account } = useEthers()
@@ -24,7 +24,7 @@ function App() {
         {account && (
           <>
             <Transfer />
-            <Mint />
+            {/* <Mint /> */}
           </>
         )}
       </Container>

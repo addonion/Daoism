@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Contract } from '@ethersproject/contracts'
-import { useContractFunction } from '@usedapp/core'
+import { useSendTransaction } from '@usedapp/core'
 import { utils } from 'ethers'
 import {
   Flex,
@@ -24,16 +23,12 @@ const Transfer = () => {
   const [address, setAddress] = useState('')
   const [disabled, setDisabled] = useState(false)
 
-  const transferInterface = new utils.Interface(['function transfer(address, uint256)'])
-  const transferContractAddress = '0x9ed2135850920ba65566d010b947b49e88651675'
-  const contract = new Contract(transferContractAddress, transferInterface)
-
-  const { state, send } = useContractFunction(contract, 'transfer', { transactionName: 'Transfer' })
+  const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })
   const toast = useToast()
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setDisabled(true)
-    await send({ address: address, value: utils.parseEther(amount) })
+    void sendTransaction({ to: address, value: utils.parseEther(amount) })
   }
 
   useEffect(() => {
