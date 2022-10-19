@@ -1,22 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSendTransaction } from '@usedapp/core'
 import { utils } from 'ethers'
-import {
-  Flex,
-  Box,
-  Heading,
-  Divider,
-  InputGroup,
-  InputLeftAddon,
-  Input,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Button,
-  useToast,
-} from '@chakra-ui/react'
+import { Box, Heading, useToast } from '@chakra-ui/react'
+import Form from '../Form'
 
 const Transfer = () => {
   const [amount, setAmount] = useState('0')
@@ -26,7 +12,8 @@ const Transfer = () => {
   const { sendTransaction, state } = useSendTransaction({ transactionName: 'Send Ethereum' })
   const toast = useToast()
 
-  const handleClick = () => {
+  const handleOnSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault()
     setDisabled(true)
     void sendTransaction({ to: address, value: utils.parseEther(amount) })
   }
@@ -62,41 +49,14 @@ const Transfer = () => {
         Transfer:
       </Heading>
 
-      <Divider my={5} />
-
-      <Flex gap={5} wrap={{ base: 'wrap', md: 'nowrap' }}>
-        {/* amount */}
-        <InputGroup w={{ base: '100%', md: '20rem' }}>
-          <InputLeftAddon children="ETH" />
-          <NumberInput id={`EthInput`} step={0.01} defaultValue={0} min={0} w="100%">
-            <NumberInputField
-              onChange={(e) => setAmount(e.currentTarget.value)}
-              value={amount}
-              disabled={disabled}
-              borderLeftRadius="0"
-            />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </InputGroup>
-
-        {/* to */}
-        <Input
-          id={`AddressInput`}
-          type="text"
-          placeholder="Address"
-          value={address}
-          onChange={(e) => setAddress(e.currentTarget.value)}
-          disabled={disabled}
-          w="100%"
-        />
-
-        <Button onClick={handleClick} px={10} w={{ base: '100%', md: 'auto' }}>
-          Send
-        </Button>
-      </Flex>
+      <Form
+        amount={amount}
+        setAmount={setAmount}
+        address={address}
+        setAddress={setAddress}
+        disabled={disabled}
+        handleOnSubmit={handleOnSubmit}
+      />
     </Box>
   )
 }

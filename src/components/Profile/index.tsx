@@ -6,7 +6,6 @@ import ConectButton from './ConectButton'
 
 const Profile = () => {
   const { account, chainId } = useEthers()
-
   const userBalance = useEtherBalance(account, { chainId })
 
   return (
