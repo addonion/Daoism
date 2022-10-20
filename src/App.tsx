@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { ChakraProvider, Container, Heading } from '@chakra-ui/react'
 import { useEthers } from '@usedapp/core'
 import Profile from './components/Profile'
@@ -7,10 +6,6 @@ import Mint from './components/Mint'
 
 function App() {
   const { account } = useEthers()
-
-  useEffect(() => {
-    document.title = 'Daoism Systems Front-end Engineer Technical Challenge'
-  })
 
   return (
     <ChakraProvider>
