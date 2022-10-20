@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { ChakraProvider, Container, Heading } from '@chakra-ui/react'
 import { useEthers } from '@usedapp/core'
 import Profile from './components/Profile'

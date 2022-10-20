@@ -1,51 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useContractFunction } from '@usedapp/core'
 import Abi from '../../abi/index.json'
 import { Contract, utils } from 'ethers'
-import { Box, Heading, useToast } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import Form from '../Form'
+import { notificationsToasts } from '../Notifications'
 
 const Transfer = () => {
+  // Form data
   const [amount, setAmount] = useState('0')
   const [address, setAddress] = useState('')
   const [disabled, setDisabled] = useState(false)
 
+  // Use contract
   const transferInterface = new utils.Interface(Abi)
   const contract = new Contract('0x8eBa66cb666795eDFf283763ffeaD33d7b24B5b0', transferInterface)
   const { state, send } = useContractFunction(contract, 'mint', { transactionName: 'Mint' })
 
-  const toast = useToast()
-
+  // Submit mint
   const handleOnSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     setDisabled(true)
-    await send('test', address, 10000)
+    await send('Test data', address, 10000)
   }
 
-  useEffect(() => {
-    if (state.status != 'Mining') {
-      setDisabled(false)
-      setAmount('0')
-      setAddress('')
-    }
-    if (state.status != 'Exception' && state.status != 'None') {
-      toast({
-        title: state.status,
-        status: 'success',
-        duration: 2000,
-        isClosable: true,
-      })
-    }
-    if (state.status == 'Exception') {
-      toast({
-        title: state.status,
-        description: state.errorMessage,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    }
-  }, [state])
+  // Notification and errors
+  notificationsToasts({ state, setDisabled, setAmount, setAddress })
 
   return (
     <Box my="5rem">

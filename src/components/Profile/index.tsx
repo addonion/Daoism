@@ -1,4 +1,3 @@
-import React from 'react'
 import { Flex, Heading, Divider, Spinner } from '@chakra-ui/react'
 import { useEthers, useEtherBalance } from '@usedapp/core'
 import { formatEther } from '@ethersproject/units'

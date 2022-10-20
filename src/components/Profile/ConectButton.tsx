@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, useToast } from '@chakra-ui/react'
 import { useEthers, useNotifications } from '@usedapp/core'
 
 const ConectButton = () => {
-  const { account, deactivate, activateBrowserWallet } = useEthers()
+  const { account, deactivate, activateBrowserWallet, error } = useEthers()
+  const [activateError, setActivateError] = useState('')
   const toast = useToast()
 
+  // Connect t owallet
+  const activate = async () => {
+    setActivateError('')
+    activateBrowserWallet()
+  }
+
   // Errors
-  const [activateError, setActivateError] = useState('')
-  const { error } = useEthers()
   useEffect(() => {
     if (error && account) {
       setActivateError(error.message)
@@ -42,11 +47,6 @@ const ConectButton = () => {
       }
     })
   })
-
-  const activate = async () => {
-    setActivateError('')
-    activateBrowserWallet()
-  }
 
   const buttonText = account ? 'Deactivate' : 'Connect to wallet'
 

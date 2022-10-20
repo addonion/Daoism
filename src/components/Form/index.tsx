@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Flex,
   Divider,
@@ -14,7 +14,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 
-type Props = {
+type PropsForm = {
   amount: string
   setAmount: (val: string) => void
   address: string
@@ -23,7 +23,7 @@ type Props = {
   handleOnSubmit: (e: React.SyntheticEvent) => void
 }
 
-const Form: React.FC<Props> = ({ amount, setAmount, address, setAddress, disabled, handleOnSubmit }) => {
+const Form: React.FC<PropsForm> = ({ amount, setAmount, address, setAddress, disabled, handleOnSubmit }) => {
   return (
     <>
       <Divider my={5} />
@@ -53,6 +53,7 @@ const Form: React.FC<Props> = ({ amount, setAmount, address, setAddress, disable
             isRequired
           />
 
+          {/* submit */}
           <Button type="submit" disabled={disabled} px={10} w={{ base: '100%', md: 'auto' }}>
             Send
           </Button>
