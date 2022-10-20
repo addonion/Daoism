@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useSendTransaction } from '@usedapp/core'
 import { utils } from 'ethers'
 import { Box, Heading } from '@chakra-ui/react'
